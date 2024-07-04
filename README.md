@@ -18,6 +18,14 @@ The files that will be synced are:
 
         minitorch/operators.py minitorch/module.py minitorch/autodiff.py minitorch/scalar.py minitorch/module.py project/run_manual.py project/run_scalar.py
 
+## Debug
+
+Isolate the error in the code and run hypothesis in verbose mode to see the failing test case.
+
+```bash
+HYPOTHESIS_VERBOSITY_LEVEL=verbose pytest -v -s tests/test_tensor.py::test_permute
+```
+
 ## Notes
 
 ### Tensors [tensor_data.py](minitorch/tensor_data.py)
@@ -31,8 +39,17 @@ The files that will be synced are:
 
 ### Operations [tensor_ops.py](minitorch/tensor_ops.py)
 
--
+- `map` applies a function to each element of a tensor
+- `zip` applies a function to pairs of elements from two tensors
+- `reduce` applies a function to a tensor along a given dimension
 
-### Functions
+### Autograd [tensor_functions.py](minitorch/tensor_functions.py)
 
-### Autograd
+Derivatives mostly scale up scalar derivatives ([scalar_functions](minitorch/scalar_functions.py)) to tensor derivatives.
+
+Some gradients that are not readily defined:
+
+- Sigmoid: $$\sigma'(x) = \sigma(x) \cdot (1 - \sigma(x))$$
+- Permutation: This is not a differentiable operation since it doesn't change the values within the tensor, only their layout. However, during autograd, we can still compute the gradients by permuting the gradients in the backward pass.
+  - Forward Pass: The tensor is permuted according to the specified order.
+  - Backward Pass: The gradients are permuted back to their original order.
