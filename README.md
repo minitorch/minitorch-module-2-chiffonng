@@ -18,13 +18,48 @@ The files that will be synced are:
 
         minitorch/operators.py minitorch/module.py minitorch/autodiff.py minitorch/scalar.py minitorch/module.py project/run_manual.py project/run_scalar.py
 
+## TODOS
+
+Sandbox for Math Functions on Streamlit fails to run.
+
 ## Debug
+
+### Failed Test Case
 
 Isolate the error in the code and run hypothesis in verbose mode to see the failing test case.
 
 ```bash
 HYPOTHESIS_VERBOSITY_LEVEL=verbose pytest -v -s tests/test_tensor.py::test_permute
 ```
+
+### minitorch not found
+
+If installing `minitorch` fails, first find the path to the `minitorch` directory.
+
+```bash
+pip show minitorch
+```
+
+Then we have three options to resolve the issue:
+
+1.  Add the path to the `minitorch` directory to the `PYTHONPATH` environment variable. This is a permanent solution. Reload the terminal after running the command.
+
+        ```bash
+        export PYTHONPATH=$PYTHONPATH:/path/to/minitorch
+        ```
+
+2.  Temporarily add the path to the `PYTHONPATH` variable when running commands
+
+        ```bash
+        PYTHONPATH=$PYTHONPATH:/path/to/minitorch streamlit run project/app.py
+        ```
+
+3.  Add the following to the beginning of affected scripts, `graph_builder.py` and `run_tensor.py`. Then reload the Streamlit app.
+
+        ```python
+        import sys
+        sys.path.append("/path/to/minitorch")
+        ```
 
 ## Notes
 

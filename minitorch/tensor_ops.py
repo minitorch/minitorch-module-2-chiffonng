@@ -268,7 +268,7 @@ def tensor_map(fn: Callable[[float], float]) -> Any:
             )
 
         # Get the total number of elements in out_shape by multiplying all dimensions
-        out_size = np.prod(out_shape)
+        out_size = int(np.prod(out_shape))
 
         # Initialize index arrays
         out_index = np.zeros_like(out_shape)
@@ -327,7 +327,7 @@ def tensor_zip(fn: Callable[[float, float], float]) -> Any:
         b_strides: Strides,
     ) -> None:
         # Get the total number of elements in out_shape by multiplying all dimensions
-        out_size = np.prod(out_shape)
+        out_size = int(np.prod(out_shape))
 
         # Initialize index arrays
         out_index = np.zeros_like(out_shape, dtype=np.int32)
@@ -386,7 +386,7 @@ def tensor_reduce(fn: Callable[[float, float], float]) -> Any:
         reduce_dim: int,
     ) -> None:
         # Get the total number of elements in out_shape by multiplying all dimensions
-        out_size = np.prod(out_shape)
+        out_size = int(np.prod(out_shape))
 
         # Initialize index arrays
         out_index = np.zeros_like(out_shape)

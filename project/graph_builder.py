@@ -1,6 +1,11 @@
-import networkx as nx
+import os
+import sys
 
-import minitorch
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(parent_dir)
+import networkx as nx  # noqa: E402
+
+import minitorch  # noqa: E402
 
 
 def build_expression(code):
@@ -17,7 +22,6 @@ def build_expression(code):
 
 
 def build_tensor_expression(code):
-
     variables = {
         "x": minitorch.tensor([[1.0, 2.0, 3.0]], requires_grad=True),
         "y": minitorch.tensor([[1.0, 2.0, 3.0]], requires_grad=True),
